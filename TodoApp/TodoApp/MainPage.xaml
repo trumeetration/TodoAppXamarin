@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TodoApp.ViewModels"
+             xmlns:models="clr-namespace:TodoApp.Models;assembly=TodoApp"
+             x:Class="TodoApp.MainPage">
+    <ContentPage.BindingContext>
+        <local:ViewModel></local:ViewModel>
+    </ContentPage.BindingContext>
+    <FlexLayout Direction="Row">
+        <Entry Text="{Binding Note}" FlexLayout.Grow="0.2"></Entry>
+        <ScrollView FlexLayout.Grow="0.2">
+            <StackLayout BindableLayout.ItemsSource="{Binding Todos}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="{x:Type models:Todo}">
+                        <Frame Margin="0,10,5,0" BackgroundColor="#AC2C9E27">
+                            <FlexLayout Direction="Row">
+                                <Label HeightRequest="30" FlexLayout.Grow="0.8" Text="{Binding Title}"></Label>
+                                <Button Text="+" FlexLayout.Grow="0.2"></Button>
+                            </FlexLayout>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+        </ScrollView>
+    </FlexLayout>
+
+</ContentPage>
