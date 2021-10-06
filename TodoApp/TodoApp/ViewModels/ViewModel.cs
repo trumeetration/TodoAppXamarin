@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using TodoApp.Models;
 using Xamarin.Forms;
 
@@ -18,19 +19,34 @@ namespace TodoApp.ViewModels
             };
         }
 
-        private string _note;
+        private string _noteField;
 
-        public string Note
+        public string NoteField
         {
-            get => _note;
+            get => _noteField;
             set
             {
-                if (_note != value)
+                if (_noteField != value)
                 {
-                    _note = value;
-                    OnPropertyChanged("Note");
+                    _noteField = value;
+                    OnPropertyChanged(nameof(NoteField));
                 }
             }
         }
+        
+
+        public Command AddTodo => new Command(() =>
+        {
+            if (string.IsNullOrWhiteSpace(NoteField) == false)
+            {
+
+                Todos.Add(new Todo
+                {
+                    Title = NoteField
+                });
+                NoteField = String.Empty;
+            }
+        });
+
     }
 }
