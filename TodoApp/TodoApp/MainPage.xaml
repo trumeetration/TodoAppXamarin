@@ -6,10 +6,8 @@
              xmlns:models="clr-namespace:TodoApp.Models;assembly=TodoApp"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="TodoApp.MainPage"
+             x:DataType="local:ViewModel"
              BackgroundColor="#f0f0f0">
-    <ContentPage.BindingContext>
-        <local:ViewModel />
-    </ContentPage.BindingContext>
 
     <FlexLayout Direction="Column" Padding="10,5">
         <FlexLayout Direction="Row" JustifyContent="SpaceBetween" Margin="0,0,0,5" FlexLayout.Basis="10%">
@@ -49,7 +47,8 @@
                                     <ImageButton Source="edit.png" FlexLayout.Basis="50%"
                                                  BackgroundColor="Transparent"
                                                  xct:IconTintColorEffect.TintColor="#4c4c4c"
-                                                 HeightRequest="25">
+                                                 HeightRequest="25"
+                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:ViewModel}}, Path=ShowEditPopup}">
                                         <ImageButton.Triggers>
                                             <Trigger TargetType="ImageButton"
                                                      Property="IsPressed"

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using TodoApp.Models;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
 namespace TodoApp.ViewModels
@@ -8,8 +9,9 @@ namespace TodoApp.ViewModels
     public class ViewModel : BindableObject
     {
         public ObservableCollection<Todo> Todos { get; set; }
+        public INavigation Navigation { get; set; }
 
-        public ViewModel()
+        public ViewModel(INavigation navigation)
         {
             Todos = new ObservableCollection<Todo>()
             {
@@ -17,6 +19,7 @@ namespace TodoApp.ViewModels
                 new Todo {Title = "Title2"},
                 new Todo {Title = "Title3"}
             };
+            Navigation = navigation;
         }
 
         private string _noteField;
@@ -51,6 +54,11 @@ namespace TodoApp.ViewModels
         public Command<Todo> DeleteTodo => new Command<Todo>(task =>
         {
             Todos.Remove(task);
+        });
+
+        public Command ShowEditPopup => new Command(() =>
+        {
+            Navigation.ShowPopup(new EditPopup());
         });
 
     }
