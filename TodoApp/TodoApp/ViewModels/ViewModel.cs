@@ -48,5 +48,10 @@ namespace TodoApp.ViewModels
             }
         });
 
+        public Command<Todo> DeleteTodo => new Command<Todo>(task =>
+        {
+            Todos.Remove(task);
+        });
+
     }
 }

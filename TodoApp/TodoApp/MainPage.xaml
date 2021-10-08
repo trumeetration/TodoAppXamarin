@@ -6,53 +6,71 @@
              xmlns:models="clr-namespace:TodoApp.Models;assembly=TodoApp"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              x:Class="TodoApp.MainPage"
-             BackgroundColor="#1F2041">
+             BackgroundColor="#f0f0f0">
     <ContentPage.BindingContext>
         <local:ViewModel />
     </ContentPage.BindingContext>
 
-    <StackLayout Orientation="Vertical" Padding="10,5">
-        <FlexLayout Direction="Row" JustifyContent="SpaceBetween" Margin="0,0,0,5">
-            <Frame BackgroundColor="#4B3F72" FlexLayout.Basis="75%" Padding="5,0">
-                <Entry Text="{Binding NoteField, Mode=TwoWay}" TextColor="Beige" FlexLayout.Basis="70%" />
+    <FlexLayout Direction="Column" Padding="10,5">
+        <FlexLayout Direction="Row" JustifyContent="SpaceBetween" Margin="0,0,0,5" FlexLayout.Basis="10%">
+            <Frame BackgroundColor="#20cfcfcf" FlexLayout.Basis="75%" Padding="5,0">
+                <Entry Text="{Binding NoteField, Mode=TwoWay}" Placeholder="Need to do" TextColor="#4c4c4c"
+                       FlexLayout.Basis="70%" />
             </Frame>
-            <Button Command="{Binding AddTodo}" FlexLayout.Basis="20%" Text="Add" BackgroundColor="#FFC857" />
+            <Button Command="{Binding AddTodo}" FlexLayout.Basis="20%" Text="Add" BackgroundColor="#ffc715" />
         </FlexLayout>
-        <BoxView HeightRequest="1" Color="Beige"></BoxView>
-        <ScrollView>
+        <BoxView HeightRequest="1" Color="#6f6f6f" />
+        <ScrollView FlexLayout.Basis="89%">
             <StackLayout BindableLayout.ItemsSource="{Binding Todos}">
+                <BindableLayout.EmptyView>
+                    <Label Text="Todo list is empty" FontSize="25" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand"></Label>
+                </BindableLayout.EmptyView>
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="{x:Type models:Todo}">
-                        <Frame Margin="0,5,5,0" BackgroundColor="#4B3F72">
+                        <Frame Margin="0,5,0,0" BackgroundColor="#50cfcfcf" BorderColor="#50cfcfcf">
+                            <Frame.Triggers>
+                                <DataTrigger Binding="{Binding IsDone, Mode=OneWay}" Value="True"
+                                             TargetType="{x:Type Frame}">
+                                    <Setter Property="BorderColor" Value="#a560e8" />
+                                    <Setter Property="BackgroundColor" Value="#90ffc715"></Setter>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsDone, Mode=OneWay}" Value="False"
+                                             TargetType="{x:Type Frame}">
+                                    <Setter Property="BorderColor" Value="#000" />
+                                </DataTrigger>
+                            </Frame.Triggers>
+                            <!-- FRAME BorderColor="#a560e8"-->
                             <FlexLayout Direction="Row" JustifyContent="SpaceBetween">
-                                <CheckBox IsChecked="{Binding IsDone, Mode=TwoWay}" Color="#FFC857"
+                                <CheckBox IsChecked="{Binding IsDone, Mode=TwoWay}" Color="#8ee000" Scale="1.4"
                                           FlexLayout.Basis="10%" />
-                                <Label HeightRequest="30" FlexLayout.Basis="60%" Text="{Binding Title}"
-                                       TextColor="Beige" FlexLayout.AlignSelf="Center" />
+                                <Label HeightRequest="30" FlexLayout.Basis="60%" Text="{Binding Title, Mode=OneWay}"
+                                       TextColor="#4c4c4c" VerticalTextAlignment="Center" />
                                 <FlexLayout Direction="Row" FlexLayout.Basis="25%" FlexLayout.AlignSelf="Center">
                                     <ImageButton Source="edit.png" FlexLayout.Basis="50%"
                                                  BackgroundColor="Transparent"
-                                                 xct:IconTintColorEffect.TintColor="Beige"
+                                                 xct:IconTintColorEffect.TintColor="#4c4c4c"
                                                  HeightRequest="25">
                                         <ImageButton.Triggers>
                                             <Trigger TargetType="ImageButton"
                                                      Property="IsPressed"
                                                      Value="True">
                                                 <Setter Property="xct:IconTintColorEffect.TintColor"
-                                                        Value="#000" />
+                                                        Value="#8ee000" />
                                             </Trigger>
                                         </ImageButton.Triggers>
                                     </ImageButton>
                                     <ImageButton Source="delete.png" FlexLayout.Basis="50%"
                                                  BackgroundColor="Transparent"
-                                                 xct:IconTintColorEffect.TintColor="Beige"
-                                                 HeightRequest="25">
+                                                 xct:IconTintColorEffect.TintColor="#4c4c4c"
+                                                 HeightRequest="25"
+                                                 Command="{Binding Source={RelativeSource AncestorType={x:Type local:ViewModel}}, Path=DeleteTodo}"
+                                                 CommandParameter="{Binding .}">
                                         <ImageButton.Triggers>
                                             <Trigger TargetType="ImageButton"
                                                      Property="IsPressed"
                                                      Value="True">
                                                 <Setter Property="xct:IconTintColorEffect.TintColor"
-                                                        Value="#000" />
+                                                        Value="#8ee000" />
                                             </Trigger>
                                         </ImageButton.Triggers>
                                     </ImageButton>
@@ -64,6 +82,6 @@
                 </BindableLayout.ItemTemplate>
             </StackLayout>
         </ScrollView>
-    </StackLayout>
+    </FlexLayout>
 
 </ContentPage>
