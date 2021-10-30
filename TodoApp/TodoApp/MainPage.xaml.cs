@@ -13,7 +13,7 @@ namespace TodoApp
     {
         public MainPage()
         {
-            BindingContext = new ViewModel(Navigation);
+            BindingContext = new ViewModel();
             InitializeComponent();
         }
     }

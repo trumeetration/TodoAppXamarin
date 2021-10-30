@@ -9,17 +9,11 @@ namespace TodoApp.ViewModels
     public class ViewModel : BindableObject
     {
         public ObservableCollection<Todo> Todos { get; set; }
-        public INavigation Navigation { get; set; }
+        
 
-        public ViewModel(INavigation navigation)
+        public ViewModel()
         {
-            Todos = new ObservableCollection<Todo>()
-            {
-                new Todo {Title = "Title1"},
-                new Todo {Title = "Title2"},
-                new Todo {Title = "Title3"}
-            };
-            Navigation = navigation;
+            Todos = new ObservableCollection<Todo>();
         }
 
         private string _noteField;
@@ -56,10 +50,7 @@ namespace TodoApp.ViewModels
             Todos.Remove(task);
         });
 
-        public Command ShowEditPopup => new Command(() =>
-        {
-            Navigation.ShowPopup(new EditPopup());
-        });
+        
 
     }
 }
